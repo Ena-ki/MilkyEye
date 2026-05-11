@@ -12,7 +12,7 @@ void Log::log(
       logLevelString = "INFO";
       break;
     case LogLevel::DEBUG:
-      logLevelString = "WARNING";
+      logLevelString = "DEBUG";
       break;
     case LogLevel::WARNING:
       logLevelString = "WARNING";
@@ -21,7 +21,7 @@ void Log::log(
       logLevelString = "ERROR";
       break;
   }
-  std::cout << logLevelString << location.file_name() << " : " << location.line() << message << '\n';
+  std::cout << logLevelString << " " << location.file_name() << " : " << location.line() << "  " << message << '\n';
 }
 
 void Log::info(
