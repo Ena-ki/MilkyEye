@@ -7,6 +7,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(thirdParty/glfw)
+add_subdirectory(thirdParty/glm)
 
 
 file(GLOB_RECURSE SOURCE_FILES false "src/*.cpp" "src/*.c")
@@ -19,3 +20,4 @@ target_include_directories(MilkyEye PRIVATE
 )
 
 target_link_libraries(MilkyEye PRIVATE glfw)
+target_link_libraries(MilkyEye PRIVATE glm)
