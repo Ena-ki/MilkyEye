@@ -4,7 +4,6 @@
 
 
 class Renderer{
-
 public:
   void init();
   void createWindow();

@@ -10,7 +10,7 @@ add_subdirectory(thirdParty/glfw)
 add_subdirectory(thirdParty/glm)
 
 
-file(GLOB_RECURSE SOURCE_FILES false "src/*.cpp" "src/*.c")
+file(GLOB_RECURSE SOURCE_FILES false "src/*.cpp" "src/*.c" "src/*.h")
 add_executable(MilkyEye ${SOURCE_FILES})
 
 target_include_directories(MilkyEye PRIVATE 
