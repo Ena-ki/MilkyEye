@@ -1,17 +1,16 @@
 #pragma once
 
 #include <string>
-#include <utility>
 
 struct ParsedShader{
-  const char* vertexShader;
-  const char* fragmentShader;
+  std::string vertexSource;
+  std::string fragmentSource;
 };
 
 class ShaderCompiler{
 public:
-  unsigned int createShaderProgram(std::string& ShaderSource);
+  static unsigned int createShaderProgram(std::string shaderFilePath);
 private:
-  ParsedShader parseShader(std::string_view shaderSource);
-  unsigned int createShader(const char* parsedShaderSource, int shaderType);
+  static ParsedShader parseShader(std::string& shaderFilePath);
+  static unsigned int createShader(const char* parsedShaderSource, int shaderType);
 };

@@ -3,7 +3,7 @@
 #include "renderer.h"
 #include <sstream>
 #include "log/log.h"
-#include <cmath>
+#include "shaderCompiler/shaderCompiler.h"
 
 
 void Renderer::init(){
@@ -46,25 +46,11 @@ void Renderer::createWindow(){
 
 
 void Renderer::run(){
-
   delta = 0.0;
   double lastFrame = 0.0;
   double currentFrame = 0.0;
 
 
-  const char *vertexShaderSource ="#version 430 core\n"
-      "layout (location = 0) in vec3 aPos;\n"
-      "void main()\n"
-      "{\n"
-      "   gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);\n"
-      "}\0";
-  
- const char *fragmentShaderSource = "#version 430 core\n"
-    "out vec4 FragColor;\n"
-    "void main()\n"
-    "{\n"
-    "   FragColor = vec4(1.0f, 0.5f, 0.2f, 1.0f);\n"
-    "}\n\0";
 
   float triangleVertices[] = {
     -0.5f, -0.5f, 0.0f,
@@ -73,29 +59,9 @@ void Renderer::run(){
   };
 
 
-  
-  unsigned int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-  glShaderSource(vertexShader, 1, &vertexShaderSource, NULL);
-  glCompileShader(vertexShader);
 
-  unsigned int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-  glShaderSource(fragmentShader, 1, &fragmentShaderSource, NULL);
-  glCompileShader(fragmentShader);
-
-  int  shaderCompilationSuccess;
-  char infoLog[512];
-  glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &shaderCompilationSuccess);
-  if(!shaderCompilationSuccess){
-    Log::error("Shader compilation failed");
-    Log::error(infoLog);
-  }
-  
-  unsigned int shaderProgram = glCreateProgram();
-  glAttachShader(shaderProgram, vertexShader);
-  glAttachShader(shaderProgram, fragmentShader);
-  glLinkProgram(shaderProgram);
-  glDeleteShader(fragmentShader);
-  glDeleteShader(vertexShader);
+  unsigned int shaderProgram = ShaderCompiler::createShaderProgram("../res/shaders/basic.shader");
+  //change for the actual executable
 
   unsigned int VAO;
   glGenVertexArrays(1, &VAO);
@@ -105,10 +71,9 @@ void Renderer::run(){
   glGenBuffers(1, &VBO);
   glBindBuffer(GL_ARRAY_BUFFER, VBO);
   glBufferData(GL_ARRAY_BUFFER, sizeof(triangleVertices), triangleVertices, GL_STATIC_DRAW); // WHAT?
-
   glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
   glEnableVertexAttribArray(0);
-                                                                                             
+
   glBindBuffer(GL_ARRAY_BUFFER, 0);
   glBindVertexArray(0);
 
